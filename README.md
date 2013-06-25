@@ -4,7 +4,7 @@ This plugin logs login atempts to [YOURLS](http://yourls.org).
 I wrote this to be used with fail2ban.
 
 Before you enable the plugin make sure you copy or rename 
-the log_login_settings.php.dist to log_login_settings.php and 
+the log_login_settings.dist.php to log_login_settings.php and 
 update the file log_login_settings.php for reflect your local settings.
 
 This file needs the [PHP Pear log package](http://pear.php.net/package/Log/)
