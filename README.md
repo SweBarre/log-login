@@ -3,12 +3,12 @@ log-login
 This plugin logs login atempts to [YOURLS](http://yourls.org).
 I wrote this to be used with fail2ban.
 
-update the file log__login__settings.php for local settings.
+update the file log_login_settings.php for local settings.
 
 fail2ban
 --------
 This is an example for a jail defenition for this plugin
-change the path so it matches your settings in the log__login__settings.php
+change the path so it matches your settings in the log_login_settings.php
 */etc/fail2ban/jail.local*
 
     [yourls]
