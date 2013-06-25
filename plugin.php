@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Log Login
-Plugin URI: http://gargamel.nu/
-Description: Plugin to log logon attempts to YOURLS. Refer to <a href="http://gargamel.nu/log-logon">my page</a> for more details.
+Plugin URI: https://github.com/SweBarre/log-login
+Description: Plugin to log logon attempts to YOURLS. Refer to <a href="https://github.com/SweBarre/log-login">my page</a> for more details.
 Version: 0.1
 Author: Jonas Forsberg
 Author URI: http://gargamel.nu/
