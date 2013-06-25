@@ -24,7 +24,7 @@ include('log_login_settings.php');
  * 
  */
 
-if( $barre_log_login_log_do_log_success ) {
+if( $barre_log_login_do_log_success ) {
 	yourls_add_action( 'login_succeded', 'barre_log_login_success' );
 }
 /* Action login_fail
@@ -32,7 +32,7 @@ if( $barre_log_login_log_do_log_success ) {
  * Write login failure to the log
  * 
  */
-if ( $barre_log_login_log_do_log_failure ) {
+if ( $barre_log_login_do_log_failure ) {
 	yourls_add_action( 'login_failed', 'barre_log_login_failure' );
 }
 

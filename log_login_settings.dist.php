@@ -7,8 +7,8 @@ this is the settings file for the YOURLS plugin - log_login.
 if( !defined( 'YOURLS_ABSPATH' ) ) die();
 
 // set som variables
-$barre_log_login_log_do_log_success = false;
-$barre_log_login_log_do_log_failure = true;
+$barre_log_login_do_log_success = false;
+$barre_log_login_do_log_failure = true;
 
 // the web user (www-data) needs write permission to folder  where the log is located
 // or just create the log file and give write permission to that file
