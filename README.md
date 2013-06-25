@@ -7,6 +7,11 @@ Before you enable the plugin make sure you copy or rename
 the log_login_settings.php.dist to log_login_settings.php and 
 update the file log_login_settings.php for reflect your local settings.
 
+This file needs the [PHP Pear log package](http://pear.php.net/package/Log/)
+To install in debian wheezy, just do a 
+
+    apt-get install php-log
+
 fail2ban
 --------
 This is an example for a jail defenition for this plugin
