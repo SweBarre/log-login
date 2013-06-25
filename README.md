@@ -3,7 +3,9 @@ log-login
 This plugin logs login atempts to [YOURLS](http://yourls.org).
 I wrote this to be used with fail2ban.
 
-update the file log_login_settings.php for local settings.
+Before you enable the plugin make sure you copy or rename 
+the log_login_settings.php.dist to log_login_settings.php and 
+update the file log_login_settings.php for reflect your local settings.
 
 fail2ban
 --------
