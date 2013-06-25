@@ -10,7 +10,8 @@ if( !defined( 'YOURLS_ABSPATH' ) ) die();
 $barre_log_login_log_do_log_success = false;
 $barre_log_login_log_do_log_failure = true;
 
-// the web user needs permission to folder where the log is located
+// the web user (www-data) needs write permission to folder  where the log is located
+// or just create the log file and give write permission to that file
 // for security reasons put the log outside the web root
 //example: /var/log/yourls/yourls-auth.log
 $barre_log_login_log_file_name = __DIR__ . DIRECTORY_SEPARATOR .'yourls-auth.log';
