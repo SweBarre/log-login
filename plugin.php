@@ -97,15 +97,16 @@ function barre_log_login_adminpage_update_option() {
 	isset( $_POST['barre_log_login_log_logoff'] ) ? $barre_log_login_log_logoff = "True" : $barre_log_login_log_logoff = "False";
         yourls_update_option( 'barre_log_login_log_logoff', $barre_log_login_log_logoff );
 
-	/*
-	 TODO: 
-		* Sanitize the path and filename more
-		* Check if folder is writeble if log doesn't exist
-	*/
         $barre_log_login_log_filename = $_POST['barre_log_login_log_filename'];
-        if( !is_writable( $barre_log_login_log_filename) ) {
+        
+	//Check to se if file exists and is not writeable then add a warning message
+	if( file_exists( $barre_log_login_log_filename ) && !is_writeable( $barre_log_login_log_filename)) {
 		$message = yourls_e( 'WARNING: The log file specified is not writeble');
-		yourls_add_notice( $message );
+                yourls_add_notice( $message );
+	} elseif ( !is_writeable( dirname( $barre_log_login_log_filename ))) {
+		// The file doesn't exist, check if folder is writeable. if not, add a warning message
+		$message = yourls_e( 'WARNING: Unable to write to log file folder');
+                yourls_add_notice( $message );
 	}
                 
         yourls_update_option( 'barre_log_login_log_filename', $barre_log_login_log_filename );
@@ -145,19 +146,35 @@ function barre_log_login_log2file( $barre_log_login_result ) {
                                         'lineFormat' => "%{timestamp}\t - %{message}",
                                         'timeFormat' => "%b %d %H:%M:%S"
                                         );
-        //check to see if the logfile is writeable, if not log error
 	$barre_log_login_log_filename = yourls_get_option( 'barre_log_login_log_filename' );
-	if( is_writable($barre_log_login_log_filename )) {
-		// Create a singleton log class
-		// TODO: Make the code Strict for the Log class !?!
-		$barre_login_log_file = Log::singleton('file', yourls_get_option( 'barre_log_login_log_filename' ), 'BARRE_LOG_LOGIN_LOG', $barre_login_log_conf);
-	        //log to the file
-		$barre_login_log_file->log( $_SERVER['REMOTE_ADDR'] . " -\t" . $barre_log_login_result );
-	} else {
-		$message = yourls_e('The logfile is not writable: ') . $barre_log_login_log_filename;
-		error_log( $message );
-	}
-	
+
+        //Check to see if file doesn't exist OR if it's not writeble
+        if( !is_writeable( $barre_log_login_log_filename ) ) {
+		// OK, something is wrong with the logfile
+		// let's check if it exists and is not writeable
+		if( file_exists( $barre_log_login_log_filename )) {
+			//The file exists but not writeable, let's log an error and return from function
+	                $message = 'The logfile is not writable: ' . $barre_log_login_log_filename;
+        	        error_log( $message );
+			return;
+		}
+		// The file doesn't exist, let check if the folder is writeable
+		if ( is_writeable( dirname( $barre_log_login_log_filename ))) {
+			// lets create the logfile
+			touch( $barre_log_login_log_filename );
+		} else {
+			//The logfile doesn't exist and the folder is not writeable
+			// Let's log an error and return from function
+                        $message = 'The folder for the logfile destination is not writable: ' . dirname( $barre_log_login_log_filename);
+                        error_log( $message );
+			return;
+		}
+        } 
+
+	// Create a singleton log class
+	$barre_login_log_file = Log::singleton('file', yourls_get_option( 'barre_log_login_log_filename' ), 'BARRE_LOG_LOGIN_LOG', $barre_login_log_conf);
+	//log to the file
+	$barre_login_log_file->log( $_SERVER['REMOTE_ADDR'] . " -\t" . $barre_log_login_result );
 }
 
 //Log the successful logins
