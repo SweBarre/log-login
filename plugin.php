@@ -73,14 +73,6 @@ function barre_log_login_adminpage_do_page() {
         if ( $barre_log_login_log_logoff == 'True') echo ' checked=checked';
         echo '" /></p>';
         
-/*        
-        echo '<p><label for="barre_log_login_log_filename>';
-	echo yourls_e( 'Enter path to log file' ); 
-	echo '</label>';
-        echo '<input type="text" id="barre_log_login_log_filename" name="barre_log_login_log_filename" value="';
-	echo $barre_log_login_log_filenema;
-	echo '" /></p>';
-*/     
 	echo '<p><label for="barre_log_login_log_filename">';
 	echo yourls_e( 'Enter an integer2' );
 	echo '</label> <input type="text" id="barre_log_login_log_filename" name="barre_log_login_log_filename" value="';
@@ -104,7 +96,12 @@ function barre_log_login_adminpage_update_option() {
 	
 	isset( $_POST['barre_log_login_log_logoff'] ) ? $barre_log_login_log_logoff = "True" : $barre_log_login_log_logoff = "False";
         yourls_update_option( 'barre_log_login_log_logoff', $barre_log_login_log_logoff );
-        
+
+	/*
+	 TODO: 
+		* Sanitize the path and filename more
+		* Check if folder is writeble if log doesn't exist
+	*/
         $barre_log_login_log_filename = $_POST['barre_log_login_log_filename'];
         if( !is_writable( $barre_log_login_log_filename) ) {
 		$message = yourls_e( 'WARNING: The log file specified is not writeble');
@@ -152,11 +149,13 @@ function barre_log_login_log2file( $barre_log_login_result ) {
 	$barre_log_login_log_filename = yourls_get_option( 'barre_log_login_log_filename' );
 	if( is_writable($barre_log_login_log_filename )) {
 		// Create a singleton log class
-		$barre_login_log_file = Log::factory('file', yourls_get_option( 'barre_log_login_log_filename' ), 'BARRE_LOG_LOGIN_LOG', $barre_login_log_conf);
+		// TODO: Make the code Strict for the Log class !?!
+		$barre_login_log_file = Log::singleton('file', yourls_get_option( 'barre_log_login_log_filename' ), 'BARRE_LOG_LOGIN_LOG', $barre_login_log_conf);
 	        //log to the file
 		$barre_login_log_file->log( $_SERVER['REMOTE_ADDR'] . " -\t" . $barre_log_login_result );
 	} else {
 		$message = yourls_e('The logfile is not writable: ') . $barre_log_login_log_filename;
+		error_log( $message );
 	}
 	
 }
