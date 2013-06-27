@@ -152,7 +152,6 @@ function barre_log_login_log2file( $barre_log_login_result ) {
 		// TODO: Make the code Strict for the Log class !?!
 		$barre_login_log_file = Log::singleton('file', yourls_get_option( 'barre_log_login_log_filename' ), 'BARRE_LOG_LOGIN_LOG', $barre_login_log_conf);
 	        //log to the file
-		// TODO: Add loginname to log
 		$barre_login_log_file->log( $_SERVER['REMOTE_ADDR'] . " -\t" . $barre_log_login_result );
 	} else {
 		$message = yourls_e('The logfile is not writable: ') . $barre_log_login_log_filename;
@@ -163,13 +162,13 @@ function barre_log_login_log2file( $barre_log_login_result ) {
 
 //Log the successful logins
 function barre_log_login_success() {
-	barre_log_login_log2file( 'SUCCESS' );
+	barre_log_login_log2file( 'LOGIN SUCCESS ' . YOURLS_USER );
 	
 }
 
 //log the failed logins
 function barre_log_login_failure() {
-	barre_log_login_log2file( 'FAIL' );
+	barre_log_login_log2file( 'LOGIN FAILURE' );
 }
 
 //log the logoffs

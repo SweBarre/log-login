@@ -27,7 +27,7 @@ and create the filer for the jail.
 */etc/fail2ban/filter/yourls.conf*
 
     [Definition]
-    failregex = .*- <HOST> -.*FAIL.*
+    failregex = .*- <HOST> -.*LOGIN FAILURE.*
     ignoreregexp =
 
 
@@ -46,4 +46,3 @@ An example on a logrotate rule for the log.
             notifempty
             create 640 www-data adm
     }
-
