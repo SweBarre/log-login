@@ -17,8 +17,9 @@ require_once('Log.php');
 
 // Register log-login admin page
 yourls_add_action( 'plugins_loaded', 'barre_log_login_admipage_add_page' );
-function barre_log_login_adminpage_add_page() {
-yourls_register_plugin_page( 'barre_log_login_adminpage', 'log-login Admin Page', 'barre_log_login_adminpage_do_page' );
+
+function barre_log_login_admipage_add_page() {
+	yourls_register_plugin_page( 'barre_log_login_adminpage', 'log-login Settings', 'barre_log_login_adminpage_do_page' );
         // parameters: page slug, page title, and function that will display the page itself
 }
 
@@ -26,10 +27,10 @@ yourls_register_plugin_page( 'barre_log_login_adminpage', 'log-login Admin Page'
 function barre_log_login_adminpage_do_page() {
 
         // Check if a form was submitted
-        if( isset( $_POST['barre_log_login_log_success'] ) ) {
+	if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        	//if( isset( $_POST['barre_log_login_log_success'] ) ) {
                 // Check nonce
                 yourls_verify_nonce( 'barre_log_login_adminpage' );
-
                 // Process form
                 barre_log_login_adminpage_update_option();
         }
@@ -38,61 +39,79 @@ function barre_log_login_adminpage_do_page() {
         $barre_log_login_log_success = yourls_get_option( 'barre_log_login_log_success' );
         $barre_log_login_log_failure = yourls_get_option( 'barre_log_login_log_failure' );
         $barre_log_login_log_logoff = yourls_get_option( 'barre_log_login_log_logoff' );
-        $barre_log_login_log_file = yourls_get_option( 'barre_log_login_log_file' );
+        $barre_log_login_log_filename = yourls_get_option( 'barre_log_login_log_filename' );
 
         // Create nonce
         $nonce = yourls_create_nonce( 'barre_log_login_adminpage' );
         
-        echo '<h2>' . yourls_e( 'log-login Plugin Administration Page' ) . '</h2>';
-        echo '<p>' . yourls_e( 'This plugin lets you log login failures, login success and logoff to a file') . '</p>';
+        echo '<h2>';
+	echo yourls_e( 'log-login Plugin Administration Page' ); 
+	echo '</h2>';
+        echo '<p>';
+	echo yourls_e( 'This plugin lets you log login failures, login success and logoff to a file');
+	echo '</p>';
         echo '<form method="post">';
-        echo '<input type="hidden" name="nonce" value="$nonce" />';
-        
-        echo '<p><label for="barre_log_login_log_success">' . yourls_e( 'Log successful logins' ) .'</label>';
+        echo '<input type="hidden" name="nonce" value="' . $nonce . '" />';
+        echo '<p><label for="barre_log_login_log_success">';
+	echo yourls_e( 'Log successful logins' );
+	echo '</label>';
         echo '<input type="checkbox" id="barre_log_login_log_success" name="barre_log_login_log_success" value="True"';
         if ( $barre_log_login_log_success == 'True') echo ' checked=checked';
         echo ''.'" /></p>';
 
-        echo '<p><label for="barre_log_login_log_failure">' . yourls_e( 'Log failed logins' ) .'</label>';
-        echo '<input type="checkbox" id="barre_log_login_log_failure" name="barre_log_login_log_failure" value="True"' . $barre_log_login_log_failure .'" /></p>';
+        echo '<p><label for="barre_log_login_log_failure">';
+	echo  yourls_e( 'Log failed logins' );
+	echo '</label>';
+        echo '<input type="checkbox" id="barre_log_login_log_failure" name="barre_log_login_log_failure" value="True"';
         if ( $barre_log_login_log_failure == 'True') echo ' checked=checked';
-        echo ''.'" /></p>';
+        echo '" /></p>';
 
-        echo '<p><label for="barre_log_login_log_logoff">' . yourls_e( 'Log logoffs' ) .'</label>';
-        echo '<input type="checkbox" id="barre_log_login_log_success" name="barre_log_login_log_logoff" value="True"' . $barre_log_login_log_logoff .'" /></p>';
-        if ( $barre_log_login_log_failure == 'True') echo ' checked=checked';
-        echo ''.'" /></p>';
+        echo '<p><label for="barre_log_login_log_logoff">'; 
+	echo yourls_e( 'Log logoffs' ); 
+	echo '</label>';
+        echo '<input type="checkbox" id="barre_log_login_log_logoff" name="barre_log_login_log_logoff" value="True"';
+        if ( $barre_log_login_log_logoff == 'True') echo ' checked=checked';
+        echo '" /></p>';
         
-        
-        echo '<p><label for="barre_log_login_log_file>' . yourls_e( 'Enter path to log file' ) .'</label>';
-        echo '<input type="text" id="barre_log_login_log_file" name="barre_log_login_log_file" value="' . $barre_log_login_log_file .'" /></p>';
-        
-        echo '<p><input type="submit" value="' .yourls_e( 'Update value' ) .'" /></p>';
+/*        
+        echo '<p><label for="barre_log_login_log_filename>';
+	echo yourls_e( 'Enter path to log file' ); 
+	echo '</label>';
+        echo '<input type="text" id="barre_log_login_log_filename" name="barre_log_login_log_filename" value="';
+	echo $barre_log_login_log_filenema;
+	echo '" /></p>';
+*/     
+	echo '<p><label for="barre_log_login_log_filename">';
+	echo yourls_e( 'Enter an integer2' );
+	echo '</label> <input type="text" id="barre_log_login_log_filename" name="barre_log_login_log_filename" value="';
+	echo $barre_log_login_log_filename;
+	echo '" /></p>'; 
+
+        echo '<p><input type="submit" value="';
+	echo yourls_e( 'Update value' );
+	echo '" /></p>';
         echo '</form>';
 }
 
 // Update option in database
 function barre_log_login_adminpage_update_option() {
-        $barre_log_login_log_success = $_POST['barre_log_login_log_success'];
-        if( !$barre_log_login_log_success == 'True') $barre_log_login_log_success = 'False';
+        
+	isset( $_POST['barre_log_login_log_success'] ) ? $barre_log_login_log_success = "True" : $barre_log_login_log_success = "False";
         yourls_update_option( 'barre_log_login_log_success', $barre_log_login_log_success );
         
-        $barre_log_login_log_failure = $_POST['barre_log_login_log_failure'];
-        if( !$barre_log_login_log_failure == 'True') $barre_log_login_log_failure = 'False';
+	isset( $_POST['barre_log_login_log_failure'] ) ? $barre_log_login_log_failure = "True" : $barre_log_login_log_failure = "False";
         yourls_update_option( 'barre_log_login_log_failure', $barre_log_login_log_failure );
-        
-        $barre_log_login_log_logoff = $_POST['barre_log_login_log_logoff'];
-        if( !$barre_log_login_log_logoff == 'True') $barre_log_login_log_logoff = 'False';
+	
+	isset( $_POST['barre_log_login_log_logoff'] ) ? $barre_log_login_log_logoff = "True" : $barre_log_login_log_logoff = "False";
         yourls_update_option( 'barre_log_login_log_logoff', $barre_log_login_log_logoff );
-
-        $barre_log_login_log_file = $_POST['barre_log_login_log_success'];
         
-        if( !is_writable( $barre_log_login_log_file) ) {
-                echo '<p>' . yourls_e( 'WARNING: The file "' ) . $barre_log_login_log_file . yourls_e( '" is not writeable') . '</p';
-                $barre_log_login_log_file = "";
-        }
+        $barre_log_login_log_filename = $_POST['barre_log_login_log_filename'];
+        if( !is_writable( $barre_log_login_log_filename) ) {
+		$message = yourls_e( 'WARNING: The log file specified is not writeble');
+		yourls_add_notice( $message );
+	}
                 
-        yourls_update_option( 'barre_log_login_log_file', $barre_log_login_log_file );
+        yourls_update_option( 'barre_log_login_log_filename', $barre_log_login_log_filename );
 }
 
 
@@ -101,6 +120,7 @@ function barre_log_login_adminpage_update_option() {
  * Write login success to the log
  * 
  */
+
 if( yourls_get_option( 'barre_log_login_log_success' ) == "True" ) yourls_add_action( 'login', 'barre_log_login_success' );
 
 /* Action login_fail
@@ -128,10 +148,16 @@ function barre_log_login_log2file( $barre_log_login_result ) {
                                         'lineFormat' => "%{timestamp}\t - %{message}",
                                         'timeFormat' => "%b %d %H:%M:%S"
                                         );
-        // Create a singleton log class
-	$barre_login_log_file = Log::singleton('file', yourls_get_option( 'barre_log_login_log_file' ), 'BARRE_LOG_LOGIN_LOG', $barre_login_log_conf);
-        //log to the file
-	$barre_login_log_file->log( $_SERVER['REMOTE_ADDR'] . " -\t" . $barre_log_login_result );
+        //check to see if the logfile is writeable, if not log error
+	$barre_log_login_log_filename = yourls_get_option( 'barre_log_login_log_filename' );
+	if( is_writable($barre_log_login_log_filename )) {
+		// Create a singleton log class
+		$barre_login_log_file = Log::factory('file', yourls_get_option( 'barre_log_login_log_filename' ), 'BARRE_LOG_LOGIN_LOG', $barre_login_log_conf);
+	        //log to the file
+		$barre_login_log_file->log( $_SERVER['REMOTE_ADDR'] . " -\t" . $barre_log_login_result );
+	} else {
+		$message = yourls_e('The logfile is not writable: ') . $barre_log_login_log_filename;
+	}
 	
 }
 
@@ -148,5 +174,5 @@ function barre_log_login_failure() {
 
 //log the logoffs
 function barre_log_login_logoff() {
-        barre_log_login_log2file( 'LOGOFF' )
+        barre_log_login_log2file( 'LOGOFF' );
 }
