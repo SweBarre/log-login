@@ -6,9 +6,8 @@ I wrote this to be used with fail2ban.
 enable the plugin and configure it from the admin page
 
 This file needs the [PHP Pear log package](http://pear.php.net/package/Log/)
-To install in debian wheezy, just do a 
 
-    apt-get install php-log
+    pear install Log-1.12.7
 
 fail2ban
 --------
