@@ -3,7 +3,31 @@ log-login
 This plugin logs login atempts to [YOURLS](http://yourls.org).
 I wrote this to be used with fail2ban.
 
-enable the plugin and configure it from the admin page
+Configure the plugin by adding setting in your user/config.php
+
+    define( 'BARRE_LOG_LOGIN_FILENAME' ) = '/path/to/filename.log';
+
+BARRE_LOG_LOGIN_FILENAME defines the path to where the the plugin
+should log authentication activities
+
+    define( 'BARRE_LOG_LOGIN_SUCCESS' ) = false;
+
+BARRE_LOG_LOGIN_SUCCESS (true or false) determins if successful logins
+should be logged or not.
+
+    define( 'BARRE_LOG_LOGIN_FAILURE' ) = true;
+
+BARRE_LOG_LOGIN_FAILURE (true or false) determins if failed logins
+should be logged or not.
+
+    define( 'BARRE_LOG_LOGIN_LOGOFF' ) = false;
+
+BARRE_LOG_LOGIN_FALSE (true or false) determins if logoffs should be
+logged or not.
+
+
+BARRE_LOG_LOGIN_SUCCESS (true or false) determins if successful logins
+should be logged or not.
 
 This file needs the [PHP Pear log package](http://pear.php.net/package/Log/)
 
