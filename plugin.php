@@ -15,28 +15,24 @@ if( !defined( 'YOURLS_ABSPATH' ) ) die();
 // Load the Log facility
 require_once('Log.php');
 
+/* Add default settings
 
-if( defined( 'BARRE_LOG_LOGIN_SUCCESS' )) {
-	if( BARRE_LOG_LOGIN_SUCCESS == true ) yourls_add_action( 'login', 'barre_log_login_success' );
-}
+The following definitions can be overrided if they are defined in
+the user/config.php
+*/
 
-/* Action login_fail
- *
- * Write login failure to the log
- * 
- */
-if( defined( 'BARRE_LOG_LOGIN_FAILURE' )) {
-	if(  BARRE_LOG_LOGIN_FAILURE == true ) yourls_add_action( 'login', 'barre_log_login_failure' );
-}
 
-/* Action login_fail
- *
- * Write login failure to the log
- * 
- */
-if( defined( 'BARRE_LOG_LOGIN_LOGOFF' )) {
-	if( BARRE_LOG_LOGIN_LOGOFF == true ) yourls_add_action( 'login', 'barre_log_login_logoff' );
-}
+if( !defined( 'BARRE_LOG_LOGIN_SUCCESS' )) define( 'BARRE_LOG_LOGIN_SUCCESS', false );
+if( !defined( 'BARRE_LOG_LOGIN_FAILURE' )) define( 'BARRE_LOG_LOGIN_FAILURE', true );
+if( !defined( 'BARRE_LOG_LOGIN_LOGOFF' )) define ( 'BARRE_LOG_LOGIN_LOGOFF', false);
+if( !defined( 'BARRE_LOG_LOGIN_FILENAME' )) define ( 'BARRE_LOG_LOGIN_FILENAME', dirname( __FILE__) . DIRECTORY_SEPARATOR . 'logins.log');
+
+
+//register the action functions
+if( BARRE_LOG_LOGIN_SUCCESS ) yourls_add_action( 'login', 'barre_log_login_success' );
+if( BARRE_LOG_LOGIN_FAILURE ) yourls_add_action( 'login_failed', 'barre_log_login_failure' );
+if( BARRE_LOG_LOGIN_LOGOFF ) yourls_add_action( 'logout', 'barre_log_login_logoff' );
+
 
 
 // The actuall logging function
