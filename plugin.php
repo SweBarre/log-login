@@ -52,24 +52,25 @@ function barre_log_login_log2file( $barre_log_login_result ) {
         if( !is_writeable( BARRE_LOG_LOGIN_FILENAME  ) ) {
 		// OK, something is wrong with the logfile
 		// let's check if it exists and is not writeable
-		if( file_exists( BARRE_LOG_LOGIN_LOGFILENAME )) {
+		if( file_exists( BARRE_LOG_LOGIN_FILENAME )) {
 			//The file exists but not writeable, let's log an error and return from function
-	                $message = 'The logfile is not writable: ' . BARRE_LOG_LOGIN_LOGFILENAME;
+	                $message = 'The logfile is not writable: ' . BARRE_LOG_LOGIN_FILENAME;
         	        error_log( $message );
 			return;
 		}
 		// The file doesn't exist, let check if the folder is writeable
-		if ( is_writeable( dirname( BARRE_LOG_LOGIN_LOGFILENAME ))) {
+		if ( is_writeable( dirname( BARRE_LOG_LOGIN_FILENAME ))) {
 			// lets create the logfile
-			touch( BARRE_LOG_LOGIN_LOGFILENAME );
+			touch( BARRE_LOG_LOGIN_FILENAME );
 		} else {
 			//The logfile doesn't exist and the folder is not writeable
 			// Let's log an error and return from function
-                        $message = 'The folder for the logfile destination is not writable: ' . dirname( BARRE_LOG_LOGIN_LOGFILENAME );
+                        $message = 'The folder for the logfile destination is not writable: ' . dirname( BARRE_LOG_LOGIN_FILENAME );
                         error_log( $message );
 			return;
 		}
         } 
+	
 
         /* set the format of the log file
          * if you change this you probably have to change the
@@ -81,7 +82,7 @@ function barre_log_login_log2file( $barre_log_login_result ) {
                                         );
 
 	// Create a singleton log class
-	$barre_login_log_file = Log::singleton('file', BARRE_LOG_LOGIN_LOGFILE, 'BARRE_LOG_LOGIN_LOG', $barre_login_log_conf);
+	$barre_login_log_file = Log::singleton('file', BARRE_LOG_LOGIN_FILENAME, 'BARRE_LOG_LOGIN_LOG', $barre_login_log_conf);
 	//log to the file
 	$barre_login_log_file->log( $_SERVER['REMOTE_ADDR'] . " -\t" . $barre_log_login_result );
 }
