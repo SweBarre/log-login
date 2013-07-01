@@ -97,5 +97,5 @@ function barre_log_login_failure() {
 
 //log the logoffs
 function barre_log_login_logoff() {
-        barre_log_login_log2file( 'LOGOFF ' );
+        barre_log_login_log2file( 'LOGOFF' );
 }
