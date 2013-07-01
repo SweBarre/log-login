@@ -5,30 +5,26 @@ I wrote this to be used with fail2ban.
 
 Configure the plugin by adding setting in your user/config.php
 
-    define( 'BARRE_LOG_LOGIN_FILENAME' ) = '/path/to/filename.log';
+    define( 'BARRE_LOG_LOGIN_FILENAME', '/path/to/filename.log' );
 
 BARRE_LOG_LOGIN_FILENAME defines the path to where the the plugin
 should log authentication activities. Default value if not set is
 plugins/log-login/logins.log
 
-    define( 'BARRE_LOG_LOGIN_SUCCESS' ) = false;
+    define( 'BARRE_LOG_LOGIN_SUCCESS', false );
 
 BARRE_LOG_LOGIN_SUCCESS (true or false) determins if successful logins
 should be logged or not. Default if not set is false
 
-    define( 'BARRE_LOG_LOGIN_FAILURE' ) = true;
+    define( 'BARRE_LOG_LOGIN_FAILURE', true );
 
 BARRE_LOG_LOGIN_FAILURE (true or false) determins if failed logins
 should be logged or not. Default if not set is true
 
-    define( 'BARRE_LOG_LOGIN_LOGOFF' ) = false;
+    define( 'BARRE_LOG_LOGIN_LOGOFF', false );
 
 BARRE_LOG_LOGIN_FALSE (true or false) determins if logoffs should be
 logged or not. default if not set is false
-
-
-BARRE_LOG_LOGIN_SUCCESS (true or false) determins if successful logins
-should be logged or not.
 
 This file needs the [PHP Pear log package](http://pear.php.net/package/Log/)
 
