@@ -85,7 +85,8 @@ function barre_log_login_log2file( $barre_log_login_result ) {
 
 //Log the successful logins
 function barre_log_login_success() {
-	barre_log_login_log2file( 'LOGIN SUCCESS ' . YOURLS_USER );
+	//only log successful logins if the cookie isn't set
+	if( !yourls_check_auth_cookie()) barre_log_login_log2file( 'LOGIN SUCCESS ' . YOURLS_USER );
 	
 }
 
