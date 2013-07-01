@@ -3,7 +3,7 @@
 Plugin Name: Log Login
 Plugin URI: https://github.com/SweBarre/log-login
 Description: Plugin to log logon attempts to YOURLS. Refer to <a href="https://github.com/SweBarre/log-login">my page</a> for more details.
-Version: 0.2
+Version: 0.3
 Author: Jonas Forsberg
 Author URI: http://gargamel.nu/
 */
