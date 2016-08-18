@@ -32,38 +32,13 @@ This file needs the [PHP Pear log package](http://pear.php.net/package/Log/)
 
 fail2ban
 --------
-This is an example for a jail defenition for this plugin
-change the path so it matches your settings in the log_login_settings.php
-*/etc/fail2ban/jail.local*
+copy the fail2ban-jail/yourls.conf to /etc/fail2ban/jail.d/ and change 
+the logpath to match your settings
 
-    [yourls]
-    enabled = true
-    port    = http,https
-    filter  = yourls
-    logpath = /path/to/yourls-auth.log
-    maxretry = 3
-    findtime = 120
-
-and create the filer for the jail.
-*/etc/fail2ban/filter/yourls.conf*
-
-    [Definition]
-    failregex = .*- <HOST> -.*LOGIN FAILURE.*
-    ignoreregexp =
-
-
+copy the fail2ban-filter/yourls.con to /etc/fail2ban/filter.d/
 
 
 logrotate
 ---------
-An example on a logrotate rule for the log.
-
-    /path/to/yourls-auth.log {
-            weekly
-            missingok
-            rotate 52
-            compress
-            delaycompress
-            notifempty
-            create 640 www-data adm
-    }
+copy the logrotate/yourls to /etc/logrotate-d/ and change the logpath
+to match your settings
