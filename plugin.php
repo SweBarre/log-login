@@ -92,8 +92,7 @@ function barre_log_login_success() {
 
 //log the failed logins
 function barre_log_login_failure() {
-	barre_log_login_log2file( 'LOGIN FAILURE '. $_REQUEST['username'] );
-}
+	isset($_REQUEST['username']) ? barre_log_login_log2file( 'LOGIN FAILURE '. $_REQUEST['username'] ) : null;}
 
 //log the logoffs
 function barre_log_login_logoff() {
