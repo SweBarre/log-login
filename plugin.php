@@ -74,7 +74,7 @@ function barre_log_login_log2file( $barre_log_login_result ) {
          */
         $barre_login_log_conf = array(
                                         'lineFormat' => "%{timestamp}\t - %{message}",
-                                        'timeFormat' => "%b %d %H:%M:%S"
+                                        'timeFormat' => "%m-%d-%Y %H:%M:%S"
                                         );
 
 	// Create a singleton log class
@@ -92,7 +92,10 @@ function barre_log_login_success() {
 
 //log the failed logins
 function barre_log_login_failure() {
-	barre_log_login_log2file( 'LOGIN FAILURE '. $_REQUEST['username'] );
+	    if (strlen($_REQUEST['username']) > 0) 
+	    { 	
+		    barre_log_login_log2file( 'LOGIN FAILURE '. $_REQUEST['username'] );
+	    }
 }
 
 //log the logoffs
